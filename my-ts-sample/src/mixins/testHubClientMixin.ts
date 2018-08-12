@@ -8,7 +8,7 @@ export default class TestHubClientMixin extends Vue {
   hubConnection!: signalR.HubConnection;
   clientId!: string;
 
-  readonly HUB_URL='https://localhost:44317/testHub';
+  readonly HUB_URL='https://localhost:5000/testHub';
 
   async created(): Promise<void> {
 
