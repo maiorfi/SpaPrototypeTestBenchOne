@@ -1,18 +1,18 @@
-import Vue from 'vue';
-import Component from 'vue-class-component';
+import Vue from "vue";
+import Component from "vue-class-component";
 
-import * as signalR from '@aspnet/signalr';
+import * as signalR from "@aspnet/signalr";
 
 @Component
 export default class TestHubClientMixin extends Vue {
   hubConnection!: signalR.HubConnection;
   clientId!: string;
 
-  readonly HUB_URL='https://localhost:44317/testHub';
+  readonly HUB_URL="https://localhost:5001/testHub";
 
   async created(): Promise<void> {
 
-    console.info('testHubClientMixin createdAsync()');
+    console.log("testHubClientMixin createdAsync()");
 
     this.clientId = `VUE_TS_CLIENT_${Math.round(1000 * Math.random())}`;
 
@@ -21,10 +21,10 @@ export default class TestHubClientMixin extends Vue {
     try {
       await this.hubConnection.start();
     } catch (err) {
-      console.warn('hubConnection.start', err);
+      console.warn("hubConnection.start", err);
     }
 
-    this.hubConnection.on('MessageSentToOtherClients', (sender, message) => {
+    this.hubConnection.on("MessageSentToOtherClients", (sender, message) => {
       this.onMessageSentToOtherClient(sender, message);
     });
 
@@ -33,16 +33,16 @@ export default class TestHubClientMixin extends Vue {
   async sendMessageToAllClients(message: string) : Promise<void> {
     try {
       await this.hubConnection.invoke(
-        'SendMessageToAllClients',
+        "SendMessageToAllClients",
         this.clientId,
         message
       );
     } catch (err) {
-      console.warn('onBtnClick', err);
+      console.warn("onBtnClick", err);
     }
   }
 
-  onMessageSentToOtherClient(sender: string, message: string) {
-    console.log('testHubClientMixin inMessageSentToTherClient');
+  onMessageSentToOtherClient(sender: string, message: string): void {
+    console.log("testHubClientMixin inMessageSentToTherClient");
   }
 }

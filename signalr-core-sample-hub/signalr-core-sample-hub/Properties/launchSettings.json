@@ -16,10 +16,10 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "signalr_core_sample_hub": {
+    "dotnet run (http:5000, https:5001)": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchBrowser": false,
+      "launchUrl": "",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
