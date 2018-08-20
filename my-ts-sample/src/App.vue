@@ -3,11 +3,32 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
+      <div style="float: right">
+        {{loggedUser}}
+      </div>
     </div>
     <router-view/>
   </div>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component
+export default class App extends Vue {
+
+  // proprietà calcolata
+  get loggedUser(): string {
+    var user: any = (this as any).$auth.user();
+    return user && user.userName;
+  }
+}
+
+</script>
+
+userName: function () {
+            
+        },
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
