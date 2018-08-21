@@ -8,14 +8,19 @@ export default class TestHubClientMixin extends Vue {
   hubConnection!: signalR.HubConnection;
   clientId!: string;
 
-readonly HUB_URL='https://localhost:44317/testHub';
+  readonly HUB_URL='https://localhost:5001/testHub';
+
   async created(): Promise<void> {
 
     console.log("testHubClientMixin createdAsync()");
 
     this.clientId = `VUE_TS_CLIENT_${Math.round(1000 * Math.random())}`;
 
-    this.hubConnection = new signalR.HubConnectionBuilder().withUrl(this.HUB_URL).build();
+    this.hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl(this.HUB_URL, {
+        accessTokenFactory: () => this.getLoginToken() || "ERR_NO_TOKEN_IN_LOCAL_STORAGE"
+      })
+      .build();
 
     try {
       await this.hubConnection.start();
@@ -27,6 +32,12 @@ readonly HUB_URL='https://localhost:44317/testHub';
       this.onMessageSentToOtherClient(sender, message);
     });
 
+  }
+
+  getLoginToken(): string | null {
+    let token = localStorage.getItem("default_auth_token");
+
+    return token;
   }
 
   async sendMessageToAllClients(message: string) : Promise<void> {

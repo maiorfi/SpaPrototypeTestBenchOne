@@ -5,7 +5,7 @@ import VueAxios from 'vue-axios';
 
 (Vue as any).router = router;
 Vue.use(VueAxios, axios);
-axios.defaults.baseURL = 'https://localhost:44317/api/v1';
+axios.defaults.baseURL = 'https://localhost:5001/api/v1';
 
 let vueauth = require('@websanova/vue-auth');
 
@@ -30,7 +30,7 @@ axios.interceptors.response.use(undefined, err => {
   let res = err.response;
   
   // Unauthorized Access      
-  if (!err.response || (res.status === 401 && ['UnauthorizedAccess', 'InvliadToken'].indexOf(res.data.code) > -1)) {
+  if (!err.response || (res.status === 401 && ['UnauthorizedAccess', 'InvalidToken'].indexOf(res.data.code) > -1)) {
     vueauth.logout({ makeRequest: false });
   }
   // System Error

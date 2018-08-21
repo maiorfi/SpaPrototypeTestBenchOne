@@ -1,0 +1,4 @@
+*.props
+signalr-core-sample-hub/ConsoleSampleClient/bin/
+signalr-core-sample-hub/ConsoleSampleClient/obj/
+*.DotSettings
