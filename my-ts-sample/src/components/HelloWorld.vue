@@ -51,7 +51,7 @@
       </li>
     </ul>
     <p>{{content}}</p>
-    <button v-on:click="onBtnClick()">Send Message</button>
+    <button v-on:click="onBtnClick()">Send Message</button><button v-on:click="onAdminBtnClick()">Send Administrative Message</button>
   </div>
 </template>
 
@@ -75,13 +75,22 @@ export default class HelloWorld extends mixins(MyMixin, TestHubClientMixin) {
     console.info("HelloWorld component createdAsync()");
   }
 
-  onMessageSentToOtherClient(sender:string, message: string) {
+  onMessageSentToOtherClients(sender:string, message: string) {
     console.info("MessageSentToOtherClients", sender, message);
     this.content=`Message ${message} from ${sender}`;
   }
 
+  onAdministrativeMessageSentToOtherClients(message: string) {
+    console.info("AdministrativeMessageSentToOtherClients", message);
+    this.content=`Admin Message ${message}`;
+  }
+
   async onBtnClick() : Promise<void> {
     await this.sendMessageToAllClients(`onBtnClick() - counter: ${++this.counter}`);
+  }
+
+  async onAdminBtnClick() : Promise<void> {
+    await this.sendAdministrativeMessageToAllClients(`onAdminBtnClick() - counter: ${++this.counter}`);
   }
 
 }

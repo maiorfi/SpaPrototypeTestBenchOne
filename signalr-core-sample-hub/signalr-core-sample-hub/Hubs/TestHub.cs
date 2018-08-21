@@ -16,5 +16,13 @@ namespace Hubs
 
             await Clients.Others.SendAsync("MessageSentToOtherClients", sender, message);
         }
+
+        [Authorize(Roles = "Admin")]
+        public async Task SendAdministrativeMessageToAllClients(string message)
+        {
+            // await Task.Delay(TimeSpan.FromSeconds(1));
+
+            await Clients.Others.SendAsync("AdministrativeMessageSentToOtherClients", message);
+        }
     }
 }

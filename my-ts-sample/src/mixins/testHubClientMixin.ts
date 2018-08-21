@@ -29,15 +29,16 @@ export default class TestHubClientMixin extends Vue {
     }
 
     this.hubConnection.on("MessageSentToOtherClients", (sender, message) => {
-      this.onMessageSentToOtherClient(sender, message);
+      this.onMessageSentToOtherClients(sender, message);
     });
 
+    this.hubConnection.on("AdministrativeMessageSentToOtherClients", (message) => {
+      this.onAdministrativeMessageSentToOtherClients(message);
+    });
   }
 
   getLoginToken(): string | null {
-    let token = localStorage.getItem("default_auth_token");
-
-    return token;
+    return localStorage.getItem("default_auth_token");
   }
 
   async sendMessageToAllClients(message: string) : Promise<void> {
@@ -48,11 +49,26 @@ export default class TestHubClientMixin extends Vue {
         message
       );
     } catch (err) {
-      console.warn("onBtnClick", err);
+      console.warn("sendMessageToAllClients", err);
     }
   }
 
-  onMessageSentToOtherClient(sender: string, message: string): void {
-    console.log("testHubClientMixin inMessageSentToTherClient");
+  async sendAdministrativeMessageToAllClients(message: string) : Promise<void> {
+    try {
+      await this.hubConnection.invoke(
+        "SendAdministrativeMessageToAllClients",
+        message
+      );
+    } catch (err) {
+      console.warn("sendAdministrativeMessageToAllClients", err);
+    }
+  }
+
+  onMessageSentToOtherClients(sender: string, message: string): void {
+    console.log("testHubClientMixin onMessageSentToOtherClient");
+  }
+
+  onAdministrativeMessageSentToOtherClients(message: string): void {
+    console.log("testHubClientMixin onAdministrativeMessageSentToOtherClients");
   }
 }
